@@ -3,7 +3,7 @@ document.getElementById('logo').onclick = function () {
   console.log('logo btn is clicked')
   browser.tabs
     .create({
-      url: 'https://github.com/imbeder/highlight-7'
+      url: 'https://github.com/xenkuo/highlight-7-firefox'
     })
     .then(function (tab) {
       console.log(`Created new tab: ${tab.id}`)

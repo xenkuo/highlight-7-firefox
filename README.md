@@ -20,8 +20,6 @@ Also you can use the context menu for a shortcut. Select word, right click mouse
 
 ## Todo
 
-- [ ] support Chrome
-- [ ] support Edge
 - [ ] optimise implementation
 
 
