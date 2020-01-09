@@ -107,7 +107,9 @@ The click event listener, where we perform the appropriate action given the
 ID of the menu item that was clicked.
 */
 browser.menus.onClicked.addListener((info, tab) => {
-  console.log(info.menuItemId + ':' + info.selectionText)
+  const id = info.menuItemId || 'red'
+  const text = info.selectionText || ''
+  console.log(`${info.menuItemId}:${id}; ${info.selectionText}:${text}`)
 
   var getEnable = () => {
     return browser.storage.local.get({
@@ -123,7 +125,7 @@ browser.menus.onClicked.addListener((info, tab) => {
 
   var setInfo = () => {
     return browser.storage.local.set({
-      [info.menuItemId]: info.selectionText
+      [id]: text
     })
   }
 
