@@ -1,11 +1,9 @@
 function main () {
-  try {
-    var enable = false
-  } catch (error) {
-    return
-  }
+  console.log('run highlight.js')
+
+  var enable
   var rainbow
-  var rainbowColor = {
+  const rainbowColor = {
     red: '#ff8a80',
     orange: '#ffd180',
     yellow: '#ffff8d',

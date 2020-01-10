@@ -129,7 +129,7 @@ browser.menus.onClicked.addListener((info, tab) => {
     })
   }
 
-  var exeScript = () => {
+  var highlight = () => {
     return browser.tabs.executeScript({
       file: '/highlight.js',
       allFrames: true
@@ -143,7 +143,7 @@ browser.menus.onClicked.addListener((info, tab) => {
         setInfo()
           .then(() => {
             console.log('set info ok')
-            return exeScript()
+            return highlight()
           })
           .then(() => {
             console.log('exe script ok')
@@ -157,7 +157,7 @@ browser.menus.onClicked.addListener((info, tab) => {
           setInfo()
             .then(() => {
               console.log('set info ok')
-              return exeScript()
+              return highlight()
             })
             .then(() => {
               console.log('exe script ok')
