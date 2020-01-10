@@ -1,6 +1,4 @@
 function main () {
-  console.log('run highlight.js')
-
   var enable
   var rainbow
   const rainbowColor = {
@@ -190,4 +188,11 @@ function main () {
   // })
 }
 
-main()
+var running
+if (running === undefined) {
+  main()
+  running = true
+  console.log('first time run highlight.js on this page')
+} else {
+  console.log('try to run highlight.js on same page')
+}
