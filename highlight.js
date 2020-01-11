@@ -70,13 +70,13 @@ function main () {
     const p = node.parentElement
     const pp = p.parentElement
     const pps = p.previousSibling
-    if (pps !== null && pps.className !== 'HL-7') {
+    if (pps !== null && pps.className !== 'HL-7' && pps.nodeType === 3) {
       content = pps.nodeValue
       pp.removeChild(pps)
     }
     content += word
     const pns = p.nextSibling
-    if (pns !== null && pns.className !== 'HL-7') {
+    if (pns !== null && pns.className !== 'HL-7' && pns.nodeType === 3) {
       content += pns.nodeValue
       pp.removeChild(pns)
     }
