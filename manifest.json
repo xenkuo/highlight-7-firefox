@@ -1,12 +1,13 @@
 {
     "manifest_version": 2,
     "name": "Highlight 7",
+    "author": "xenkuo@gmail.com",
     "description": "A simple and graceful tool that highlights max 7 words.",
     "version": "1.0",
     "default_locale": "en",
     "applications": {
         "gecko": {
-            "id": "xenkuo@gmail.com",
+            "id": "highlight-7@xenkuo.com",
             "strict_min_version": "57.0a1"
         }
     },
