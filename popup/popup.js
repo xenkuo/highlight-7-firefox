@@ -5,10 +5,10 @@ document.getElementById('logo').onclick = function () {
     .create({
       url: 'https://github.com/xenkuo/highlight-7-firefox'
     })
-    .then(function (tab) {
+    .then(tab => {
       console.log(`Created new tab: ${tab.id}`)
     })
-    .catch(function (e) {
+    .catch(e => {
       console.log(e)
     })
 }
@@ -18,7 +18,7 @@ window.onload = function () {
 
   browser.storage.local
     .get()
-    .then(function (items) {
+    .then(items => {
       console.log(items)
       document.getElementById('red').value = items.red || ''
       document.getElementById('orange').value = items.orange || ''
@@ -29,7 +29,7 @@ window.onload = function () {
       document.getElementById('purple').value = items.purple || ''
       document.getElementById('enable').checked = items.enable || false
     })
-    .catch(function (e) {
+    .catch(e => {
       console.log(e)
     })
 
@@ -38,10 +38,10 @@ window.onload = function () {
       file: '/highlight.js',
       allFrames: true
     })
-    .then(function (result) {
+    .then(result => {
       console.log(result)
     })
-    .catch(function (e) {
+    .catch(e => {
       console.log(e)
     })
 }

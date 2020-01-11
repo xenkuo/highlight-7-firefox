@@ -126,11 +126,11 @@ function main () {
       indigo: '',
       purple: ''
     })
-    .then(function (items) {
+    .then(items => {
       rainbow = items
       if (enable === true) hlRainbow()
     })
-    .catch(function (e) {
+    .catch(e => {
       console.log(e)
     })
 
