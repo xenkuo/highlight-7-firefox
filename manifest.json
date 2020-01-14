@@ -3,7 +3,7 @@
     "name": "Highlight 7",
     "author": "xenkuo@gmail.com",
     "description": "A simple and graceful tool that highlights max 7 words.",
-    "version": "1.0",
+    "version": "1.0.1",
     "default_locale": "en",
     "applications": {
         "gecko": {

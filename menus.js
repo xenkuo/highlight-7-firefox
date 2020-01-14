@@ -108,7 +108,7 @@ ID of the menu item that was clicked.
 */
 browser.menus.onClicked.addListener((info, tab) => {
   const id = info.menuItemId || 'red'
-  const text = info.selectionText || ''
+  const text = info.selectionText.trim() || ''
   console.log(`${info.menuItemId}:${id}; ${info.selectionText}:${text}`)
 
   var getEnable = () => {
