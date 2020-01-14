@@ -194,5 +194,5 @@ if (running === undefined) {
   running = true
   console.log('first time run highlight.js on this page')
 } else {
-  console.log('try to run highlight.js on same page')
+  console.log('try to run highlight.js again on same page')
 }
