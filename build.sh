@@ -1,1 +1,1 @@
-web-ext build -i screenshot/ test/ LICENSE README.md build.sh -o
+web-ext build -i screenshot/ test/ build.sh -o
