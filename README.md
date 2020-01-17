@@ -21,3 +21,7 @@ Also you can use the context menu for a shortcut. Select word, right click mouse
 ## Licence
 
 `MIT`
+
+## Sponsor
+
+[**Become a Patron**](https://www.patreon.com/xenkuo)
