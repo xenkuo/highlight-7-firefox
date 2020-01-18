@@ -3,7 +3,7 @@ document.getElementById('logo').onclick = function () {
   console.log('logo btn is clicked')
   browser.tabs
     .create({
-      url: 'https://github.com/xenkuo/highlight-7-firefox'
+      url: 'https://www.patreon.com/xenkuo'
     })
     .then(tab => {
       console.log(`Created new tab: ${tab.id}`)
