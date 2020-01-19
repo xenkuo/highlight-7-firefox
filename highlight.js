@@ -134,59 +134,84 @@ function main () {
       console.log(e)
     })
 
+  // function storageChangeListener (changes, area) {
+  //   if (area !== 'local') return
+
+  //   // Here we can assumpt there's only one change occured
+  //   const key = Object.keys(changes)[0]
+  //   const oldValue = changes[key].oldValue
+  //   const newValue = changes[key].newValue
+  //   console.log(
+  //     'key: ' + key + ' oldValue: ' + oldValue + ' newValue: ' + newValue
+  //   )
+  //   if (key === 'enable') {
+  //     if (newValue === true) {
+  //       enable = true
+  //       hlRainbow()
+  //     } else {
+  //       enable = false
+  //       dimRainbow()
+  //     }
+  //     return
+  //   }
+
+  //   if (oldValue !== '' && enable === true) {
+  //     dimWord(document.body, oldValue)
+  //   }
+  //   if (newValue !== '' && enable === true) {
+  //     hlWord(document.body, newValue, rainbowColor[key])
+  //   }
+
+  //   for (const kxy in rainbow) {
+  //     if (key === kxy) {
+  //       rainbow[kxy] = newValue
+  //     }
+  //   }
+  // }
+
   function storageChangeListener (changes, area) {
     if (area !== 'local') return
 
-    // Here we can assumpt there's only one change occured
-    const key = Object.keys(changes)[0]
-    const old = changes[key].oldValue
-    const nxw = changes[key].newValue
-    console.log('key: ' + key + ' oldValue: ' + old + ' newValue: ' + nxw)
-    if (key === 'enable') {
-      if (nxw === true) {
-        enable = true
-        hlRainbow()
+    for (const key in changes) {
+      const oldValue = changes[key].oldValue || ''
+      const newValue = changes[key].newValue || ''
+      console.log(
+        'key: ' + key + ' oldValue: ' + oldValue + ' newValue: ' + newValue
+      )
+      if (key === 'enable') {
+        newValue === true ? hlRainbow() : dimRainbow()
+        enable = newValue
       } else {
-        enable = false
-        dimRainbow()
-      }
-      return
-    }
-
-    if (old !== '' && enable === true) {
-      dimWord(document.body, old)
-    }
-    if (nxw !== '' && enable === true) {
-      hlWord(document.body, nxw, rainbowColor[key])
-    }
-
-    for (const kxy in rainbow) {
-      if (key === kxy) {
-        rainbow[kxy] = nxw
+        if (oldValue !== '' && enable === true) {
+          dimWord(document.body, oldValue)
+        }
+        if (newValue !== '' && enable === true) {
+          hlWord(document.body, newValue, rainbowColor[key])
+        }
+        rainbow[key] = newValue
       }
     }
   }
   browser.storage.onChanged.addListener(storageChangeListener)
-
-  // Now monitor the DOM for additions and substitute emoji into new nodes.
-  // @see https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver.
-  // const observer = new MutationObserver((mutations) => {
-  //     mutations.forEach((mutation) => {
-  //         if (mutation.addedNodes && mutation.addedNodes.length > 0) {
-  //             // This DOM change was new nodes being added. Run our substitution
-  //             // algorithm on each newly added node.
-  //             for (let i = 0; i < mutation.addedNodes.length; i++) {
-  //                 const newNode = mutation.addedNodes[i];
-  //                 highlight(newNode);
-  //             }
-  //         }
-  //     });
-  // });
-  // observer.observe(document.body, {
-  //     childList: true,
-  //     subtree: true
-  // })
 }
+// Now monitor the DOM for additions and substitute emoji into new nodes.
+// @see https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver.
+// const observer = new MutationObserver((mutations) => {
+//     mutations.forEach((mutation) => {
+//         if (mutation.addedNodes && mutation.addedNodes.length > 0) {
+//             // This DOM change was new nodes being added. Run our substitution
+//             // algorithm on each newly added node.
+//             for (let i = 0; i < mutation.addedNodes.length; i++) {
+//                 const newNode = mutation.addedNodes[i];
+//                 highlight(newNode);
+//             }
+//         }
+//     });
+// });
+// observer.observe(document.body, {
+//     childList: true,
+//     subtree: true
+// })
 
 var running
 if (running === undefined) {

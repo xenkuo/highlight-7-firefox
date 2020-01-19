@@ -18,7 +18,6 @@
         "menus"
     ],
     "browser_action": {
-        "browser_style": true,
         "default_popup": "popup/popup.html",
         "default_icon": {
             "16": "icons/hl-7.png",

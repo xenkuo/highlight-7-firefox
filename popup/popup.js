@@ -13,6 +13,26 @@ document.getElementById('logo').onclick = function () {
     })
 }
 
+document.getElementById('clear').onclick = function () {
+  console.log('clear btn is clicked')
+
+  browser.storage.local
+    .clear()
+    .then(() => {
+      document.getElementById('red').value = ''
+      document.getElementById('orange').value = ''
+      document.getElementById('yellow').value = ''
+      document.getElementById('green').value = ''
+      document.getElementById('blue').value = ''
+      document.getElementById('indigo').value = ''
+      document.getElementById('purple').value = ''
+      document.getElementById('enable').checked = false
+    })
+    .catch(e => {
+      console.log(e)
+    })
+}
+
 window.onload = function () {
   console.log('window onload')
 
