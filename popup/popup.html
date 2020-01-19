@@ -1,104 +1,69 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <!--Import Google Icon Font-->
-    <link
-      rel="stylesheet"
-      href="../material-design-icons/iconfont/material-icons.css"
-    />
-    <!--Import materialize.css-->
-    <link rel="stylesheet" href="../materialize/css/materialize.min.css" />
 
-    <meta charset="utf8" />
-  </head>
+<head>
+  <!--Import Google Icon Font-->
+  <link rel="stylesheet" href="../material-design-icons/iconfont/material-icons.css" />
+  <!--Import materialize.css-->
+  <link rel="stylesheet" href="../materialize/css/materialize.min.css" />
 
-  <body>
-    <div class="row">
-      <form class="col s12" style="text-align-last: center; margin-top: 15px;">
-        <div style="height: 30px; margin: 0px;" class="input-field">
-          <input
-            style="height: 24px; margin: 0px;"
-            id="red"
-            type="text"
-            class="red-text"
-          />
-        </div>
-        <div style="height: 30px; margin: 0px;" class="input-field">
-          <input
-            style="height: 24px; margin: 0px;"
-            id="orange"
-            type="text"
-            class="orange-text"
-          />
-        </div>
-        <div style="height: 30px; margin: 0px;" class="input-field">
-          <input
-            style="height: 24px; margin: 0px;"
-            id="yellow"
-            type="text"
-            class="yellow-text"
-          />
-        </div>
-        <div style="height: 30px; margin: 0px;" class="input-field">
-          <input
-            style="height: 24px; margin: 0px;"
-            id="green"
-            type="text"
-            class="green-text"
-          />
-        </div>
-        <div style="height: 30px; margin: 0px;" class="input-field">
-          <input
-            style="height: 24px; margin: 0px;"
-            id="blue"
-            type="text"
-            class="blue-text"
-          />
-        </div>
-        <div style="height: 30px; margin: 0px;" class="input-field">
-          <input
-            style="height: 24px; margin: 0px;"
-            id="indigo"
-            type="text"
-            class="indigo-text"
-          />
-        </div>
-        <div style="height: 30px; margin: 0px;" class="input-field">
-          <input
-            style="height: 24px; margin: 0px;"
-            id="purple"
-            type="text"
-            class="purple-text"
-          />
-        </div>
-      </form>
-    </div>
+  <meta charset="utf8" />
+</head>
 
-    <div class="divider red lighten-2"></div>
-
-    <div
-      class="row grey lighten-3"
-      style="line-height: 36px; padding-top: 5px; padding-bottom: 10px; margin: 1px 0px 1px 0px;"
-    >
-      <div class="col s9">
-        <div class="switch">
-          <label>
-            OFF
-            <input id="enable" type="checkbox" />
-            <span class="lever"></span>
-            ON
-          </label>
-        </div>
+<body>
+  <div class="row">
+    <form class="col s12" style="text-align-last: center; margin-top: 15px;">
+      <div style="height: 30px; margin: 0px;" class="input-field">
+        <input style="height: 24px; margin: 0px;" id="red" type="text" class="red-text" />
       </div>
+      <div style="height: 30px; margin: 0px;" class="input-field">
+        <input style="height: 24px; margin: 0px;" id="orange" type="text" class="orange-text" />
+      </div>
+      <div style="height: 30px; margin: 0px;" class="input-field">
+        <input style="height: 24px; margin: 0px;" id="yellow" type="text" class="yellow-text" />
+      </div>
+      <div style="height: 30px; margin: 0px;" class="input-field">
+        <input style="height: 24px; margin: 0px;" id="green" type="text" class="green-text" />
+      </div>
+      <div style="height: 30px; margin: 0px;" class="input-field">
+        <input style="height: 24px; margin: 0px;" id="blue" type="text" class="blue-text" />
+      </div>
+      <div style="height: 30px; margin: 0px;" class="input-field">
+        <input style="height: 24px; margin: 0px;" id="indigo" type="text" class="indigo-text" />
+      </div>
+      <div style="height: 30px; margin: 0px;" class="input-field">
+        <input style="height: 24px; margin: 0px;" id="purple" type="text" class="purple-text" />
+      </div>
+    </form>
+  </div>
 
-      <div class="col s3">
-        <a class="btn-floating btn-small " id="logo"
-          ><img src="../icons/hl-7@2x.png"
-        /></a>
+  <div class="divider red lighten-2"></div>
+
+  <div class="row grey lighten-3"
+    style="line-height: 36px; padding-top: 5px; padding-bottom: 10px; margin: 1px 0px 1px 0px;">
+    <div class="col s4">
+      <div class="switch">
+        <label>
+          <input id="enable" type="checkbox" />
+          <span class="lever"></span>
+        </label>
       </div>
     </div>
 
-    <!--JavaScript at end of body for optimized loading-->
-    <script src="popup.js"></script>
-  </body>
+    <div class="col s5">
+      <a class="btn-floating btn-small" id="clear">
+        <i class="material-icons">clear</i>
+      </a>
+    </div>
+    <div class="col s3">
+      <a class="btn-floating btn-small red" id="logo">
+        <i class="material-icons">favorite</i>
+      </a>
+    </div>
+  </div>
+
+  <!--JavaScript at end of body for optimized loading-->
+  <script src="popup.js"></script>
+</body>
+
 </html>
