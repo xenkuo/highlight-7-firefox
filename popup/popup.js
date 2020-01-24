@@ -1,5 +1,5 @@
 // helper
-document.getElementById('logo').onclick = function () {
+document.getElementById('logo').onclick = () => {
   console.log('logo btn is clicked')
   browser.tabs
     .create({
@@ -13,7 +13,7 @@ document.getElementById('logo').onclick = function () {
     })
 }
 
-document.getElementById('clear').onclick = function () {
+document.getElementById('clear').onclick = () => {
   console.log('clear btn is clicked')
 
   browser.storage.local
@@ -33,7 +33,7 @@ document.getElementById('clear').onclick = function () {
     })
 }
 
-window.onload = function () {
+window.onload = () => {
   console.log('window onload')
 
   browser.storage.local
@@ -66,7 +66,7 @@ window.onload = function () {
     })
 }
 
-window.onchange = function (e) {
+window.onchange = e => {
   const id = e.target.id
   let value = e.target.value.trim()
 
