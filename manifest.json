@@ -7,7 +7,7 @@
     "default_locale": "en",
     "applications": {
         "gecko": {
-            "id": "xhighlight-7@xenkuo.com",
+            "id": "highlight-7@xenkuo.com",
             "strict_min_version": "57.0a1"
         }
     },
