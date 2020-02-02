@@ -123,84 +123,9 @@ browser.menus.create(
   },
   onCreated
 )
-/*
-The click event listener, where we perform the appropriate action given the
-ID of the menu item that was clicked.
-*/
-// browser.menus.onClicked.addListener((info, tab) => {
-//   const id = info.menuItemId || 'red'
-//   let text = info.selectionText || ''
-//   text = text.trim()
-//   console.log(`${info.menuItemId}:${id}; ${info.selectionText}:${text}`)
 
-//   var getEnable = () => {
-//     return browser.storage.local.get({
-//       enable: false
-//     })
-//   }
-
-//   var setEnable = () => {
-//     return browser.storage.local.set({
-//       enable: true
-//     })
-//   }
-
-//   var setInfo = () => {
-//     return browser.storage.local.set({
-//       [id]: text
-//     })
-//   }
-
-//   var highlight = () => {
-//     return browser.tabs.executeScript({
-//       file: '/highlight.js',
-//       allFrames: true
-//     })
-//   }
-
-//   getEnable()
-//     .then(items => {
-//       console.log('get enable ok')
-//       if (items.enable === true) {
-//         setInfo()
-//           .then(() => {
-//             console.log('set info ok')
-//             return highlight()
-//           })
-//           .then(() => {
-//             console.log('exe script ok')
-//           })
-//           .catch(e => {
-//             console.log(e)
-//           })
-//       } else {
-//         setEnable().then(() => {
-//           console.log('set enable ok')
-//           setInfo()
-//             .then(() => {
-//               console.log('set info ok')
-//               return highlight()
-//             })
-//             .then(() => {
-//               console.log('exe script ok')
-//             })
-//             .catch(e => {
-//               console.log(e)
-//             })
-//         })
-//       }
-//     })
-//     .catch(e => {
-//       console.log(e)
-//     })
-// })
-
-browser.menus.onClicked.addListener((info, tab) => {
-  const id = info.menuItemId || 'red'
-  let text = info.selectionText || ''
-  text = text.trim()
-  console.log(`menu:${id}; text:${text}`)
-
+function menuHighlight (id, text) {
+  console.log('id: ' + id + '; text: ' + text)
   browser.storage.local
     .get({
       enable: false
@@ -212,7 +137,7 @@ browser.menus.onClicked.addListener((info, tab) => {
             [id]: text
           })
           .then(() => {
-            return browser.tabs.executeScript({
+            browser.tabs.executeScript({
               file: '/highlight.js',
               allFrames: true
             })
@@ -229,12 +154,12 @@ browser.menus.onClicked.addListener((info, tab) => {
             enable: true
           })
           .then(() => {
-            return browser.storage.local.set({
+            browser.storage.local.set({
               [id]: text
             })
           })
           .then(() => {
-            return browser.tabs.executeScript({
+            browser.tabs.executeScript({
               file: '/highlight.js',
               allFrames: true
             })
@@ -250,10 +175,43 @@ browser.menus.onClicked.addListener((info, tab) => {
     .catch(e => {
       console.error(e)
     })
+}
+
+browser.menus.onClicked.addListener((info, tab) => {
+  let id = info.menuItemId || 'auto'
+  let text = info.selectionText || ''
+  text = text.trim()
+  console.log(`menu:${id}; text:${text}`)
+
+  if (id === 'auto') {
+    browser.storage.local
+      .get({
+        red: '',
+        orange: '',
+        yellow: '',
+        green: '',
+        blue: '',
+        indigo: '',
+        purple: ''
+      })
+      .then(items => {
+        const keys = Object.keys(items)
+        for (const key of keys) {
+          if (items[key] === '') {
+            id = key
+            break
+          }
+        }
+        if (id === 'auto') id = keys[new Date().getTime() % 7]
+        menuHighlight(id, text)
+      })
+  } else {
+    menuHighlight(id, text)
+  }
 })
 
 browser.commands.onCommand.addListener(command => {
-  if (command === 'highlight') {
+  if (command === 'switch') {
     console.log(command + 'triggered')
 
     browser.storage.local
@@ -284,6 +242,32 @@ browser.commands.onCommand.addListener(command => {
               console.error(e)
             })
         }
+      })
+      .catch(e => {
+        console.error(e)
+      })
+  } else if (command === 'highlight') {
+    browser.tabs
+      .executeScript({
+        file: '/highlight.js',
+        allFrames: true
+      })
+      .then(() => {
+        browser.storage.local.set({
+          random: new Date().getTime()
+        })
+      })
+      .then(() => {
+        console.log('random set ok')
+      })
+      .catch(e => {
+        console.error(e)
+      })
+  } else if (command === 'clear') {
+    browser.storage.local
+      .clear()
+      .then(() => {
+        console.log('highlight 7 cleared')
       })
       .catch(e => {
         console.error(e)

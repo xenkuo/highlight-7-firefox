@@ -33,6 +33,20 @@
                 "mac": "Command+Shift+2"
             },
             "description": "Highlight word with random color"
+        },
+        "switch": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+E",
+                "mac": "Command+Shift+E"
+            },
+            "description": "switch highlight 7 on/off"
+        },
+        "clear": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+X",
+                "mac": "Command+Shift+X"
+            },
+            "description": "clear all highlight words"
         }
     },
     "icons": {
@@ -43,7 +57,7 @@
     },
     "background": {
         "scripts": [
-            "menus.js"
+            "background.js"
         ]
     }
 }

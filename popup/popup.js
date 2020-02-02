@@ -9,7 +9,7 @@ document.getElementById('logo').onclick = () => {
       console.log(`Created new tab: ${tab.id}`)
     })
     .catch(e => {
-      console.log(e)
+      console.error(e)
     })
 }
 
@@ -29,7 +29,7 @@ document.getElementById('clear').onclick = () => {
       document.getElementById('enable').checked = false
     })
     .catch(e => {
-      console.log(e)
+      console.error(e)
     })
 }
 
@@ -50,7 +50,7 @@ window.onload = () => {
       document.getElementById('enable').checked = items.enable || false
     })
     .catch(e => {
-      console.log(e)
+      console.error(e)
     })
 
   browser.tabs
@@ -62,7 +62,7 @@ window.onload = () => {
       console.log(result)
     })
     .catch(e => {
-      console.log(e)
+      console.error(e)
     })
 }
 
