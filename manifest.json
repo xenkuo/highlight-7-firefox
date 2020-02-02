@@ -7,7 +7,7 @@
     "default_locale": "en",
     "applications": {
         "gecko": {
-            "id": "highlight-7@xenkuo.com",
+            "id": "xhighlight-7@xenkuo.com",
             "strict_min_version": "57.0a1"
         }
     },
@@ -24,6 +24,15 @@
             "32": "icons/hl-7@2x.png",
             "48": "icons/hl-7@3x.png",
             "96": "icons/hl-7@6x.png"
+        }
+    },
+    "commands": {
+        "highlight": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+2",
+                "mac": "Command+Shift+2"
+            },
+            "description": "Highlight word with random color"
         }
     },
     "icons": {

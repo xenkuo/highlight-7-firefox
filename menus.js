@@ -11,6 +11,27 @@ function onCreated () {
 /*
 Create all the context menu items.
 */
+browser.menus.create(
+  {
+    id: 'auto',
+    title: browser.i18n.getMessage('menuItemAuto'),
+    contexts: ['page', 'editable', 'frame', 'link', 'selection'],
+    icons: {
+      16: 'icons/hl-7.png',
+      32: 'icons/hl-7@2x.png'
+    }
+  },
+  onCreated
+)
+
+browser.menus.create(
+  {
+    id: 'separator',
+    type: 'separator',
+    contexts: ['page', 'editable', 'frame', 'link', 'selection']
+  },
+  onCreated
+)
 
 browser.menus.create(
   {
@@ -106,70 +127,166 @@ browser.menus.create(
 The click event listener, where we perform the appropriate action given the
 ID of the menu item that was clicked.
 */
+// browser.menus.onClicked.addListener((info, tab) => {
+//   const id = info.menuItemId || 'red'
+//   let text = info.selectionText || ''
+//   text = text.trim()
+//   console.log(`${info.menuItemId}:${id}; ${info.selectionText}:${text}`)
+
+//   var getEnable = () => {
+//     return browser.storage.local.get({
+//       enable: false
+//     })
+//   }
+
+//   var setEnable = () => {
+//     return browser.storage.local.set({
+//       enable: true
+//     })
+//   }
+
+//   var setInfo = () => {
+//     return browser.storage.local.set({
+//       [id]: text
+//     })
+//   }
+
+//   var highlight = () => {
+//     return browser.tabs.executeScript({
+//       file: '/highlight.js',
+//       allFrames: true
+//     })
+//   }
+
+//   getEnable()
+//     .then(items => {
+//       console.log('get enable ok')
+//       if (items.enable === true) {
+//         setInfo()
+//           .then(() => {
+//             console.log('set info ok')
+//             return highlight()
+//           })
+//           .then(() => {
+//             console.log('exe script ok')
+//           })
+//           .catch(e => {
+//             console.log(e)
+//           })
+//       } else {
+//         setEnable().then(() => {
+//           console.log('set enable ok')
+//           setInfo()
+//             .then(() => {
+//               console.log('set info ok')
+//               return highlight()
+//             })
+//             .then(() => {
+//               console.log('exe script ok')
+//             })
+//             .catch(e => {
+//               console.log(e)
+//             })
+//         })
+//       }
+//     })
+//     .catch(e => {
+//       console.log(e)
+//     })
+// })
+
 browser.menus.onClicked.addListener((info, tab) => {
   const id = info.menuItemId || 'red'
   let text = info.selectionText || ''
   text = text.trim()
-  console.log(`${info.menuItemId}:${id}; ${info.selectionText}:${text}`)
+  console.log(`menu:${id}; text:${text}`)
 
-  var getEnable = () => {
-    return browser.storage.local.get({
+  browser.storage.local
+    .get({
       enable: false
     })
-  }
-
-  var setEnable = () => {
-    return browser.storage.local.set({
-      enable: true
-    })
-  }
-
-  var setInfo = () => {
-    return browser.storage.local.set({
-      [id]: text
-    })
-  }
-
-  var highlight = () => {
-    return browser.tabs.executeScript({
-      file: '/highlight.js',
-      allFrames: true
-    })
-  }
-
-  getEnable()
     .then(items => {
-      console.log('get enable ok')
       if (items.enable === true) {
-        setInfo()
-          .then(() => {
-            console.log('set info ok')
-            return highlight()
+        browser.storage.local
+          .set({
+            [id]: text
           })
           .then(() => {
-            console.log('exe script ok')
+            return browser.tabs.executeScript({
+              file: '/highlight.js',
+              allFrames: true
+            })
+          })
+          .then(() => {
+            console.log('highlight works')
           })
           .catch(e => {
-            console.log(e)
+            console.error(e)
           })
       } else {
-        setEnable().then(() => {
-          console.log('set enable ok')
-          setInfo()
-            .then(() => {
-              console.log('set info ok')
-              return highlight()
+        browser.storage.local
+          .set({
+            enable: true
+          })
+          .then(() => {
+            return browser.storage.local.set({
+              [id]: text
             })
-            .then(() => {
-              console.log('exe script ok')
+          })
+          .then(() => {
+            return browser.tabs.executeScript({
+              file: '/highlight.js',
+              allFrames: true
             })
-            .catch(e => {
-              console.log(e)
-            })
-        })
+          })
+          .then(() => {
+            console.log('highlight works')
+          })
+          .catch(e => {
+            console.error(e)
+          })
       }
     })
     .catch(e => {
-      console.log(e)
+      console.error(e)
     })
+})
+
+browser.commands.onCommand.addListener(command => {
+  if (command === 'highlight') {
+    console.log(command + 'triggered')
+
+    browser.storage.local
+      .get({
+        enable: false
+      })
+      .then(items => {
+        if (items.enable === true) {
+          browser.storage.local
+            .set({
+              enable: false
+            })
+            .then(() => {
+              console.log('highlight 7 disabled')
+            })
+            .catch(e => {
+              console.error(e)
+            })
+        } else {
+          browser.storage.local
+            .set({
+              enable: true
+            })
+            .then(() => {
+              console.log('highlight 7 enabled')
+            })
+            .catch(e => {
+              console.error(e)
+            })
+        }
+      })
+      .catch(e => {
+        console.error(e)
+      })
+  }
 })
