@@ -34,19 +34,19 @@
             },
             "description": "Highlight word with auto color"
         },
-        "switch": {
-            "suggested_key": {
-                "default": "Ctrl+Shift+E",
-                "mac": "Command+Shift+E"
-            },
-            "description": "Switch highlight 7 on/off"
-        },
         "clear": {
             "suggested_key": {
                 "default": "Ctrl+Shift+X",
                 "mac": "Command+Shift+X"
             },
             "description": "Clear all highlight words"
+        },
+        "switch": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+E",
+                "mac": "Command+Shift+E"
+            },
+            "description": "Switch highlight 7 on/off"
         }
     },
     "icons": {

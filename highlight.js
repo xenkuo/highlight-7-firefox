@@ -134,6 +134,29 @@ function main () {
       console.error(e)
     })
 
+  function enableProcess (newValue) {
+    console.log('enable newVale: ' + newValue)
+    switch (newValue) {
+      case true:
+        enable = true
+        hltRainbow()
+        break
+      case false:
+        enable = false
+        dimRainbow()
+        break
+      case undefined:
+        enable = false
+        dimRainbow()
+        for (const key in rainbow) {
+          rainbow[key] = ''
+        }
+        break
+      default:
+        break
+    }
+  }
+
   function getColor () {
     const keys = Object.keys(rainbow)
     let color = 'red'
@@ -150,25 +173,26 @@ function main () {
     return color
   }
 
-  function enableProcess (newValue) {
-    console.log('enable newVale: ' + newValue)
-    switch (newValue) {
-      case true:
-        enable = true
-        hltRainbow()
-        break
-      case false:
-        enable = false
-        dimRainbow()
-        break
-      case undefined:
-        enable = false
-        dimRainbow()
-        rainbow = {}
-        break
-      default:
-        break
+  function setWord () {
+    const word = window.top
+      .getSelection()
+      .toString()
+      .trim()
+    for (const key in rainbow) {
+      if (rainbow[key] === word) return
     }
+    const color = getColor()
+
+    browser.storage.local
+      .set({
+        [color]: word
+      })
+      .then(() => {
+        console.log('auto color settle down')
+      })
+      .catch(e => {
+        console.error(e)
+      })
   }
 
   function autoProcess () {
@@ -181,46 +205,10 @@ function main () {
         })
         .then(() => {
           console.log('auto mode enabled')
-
-          const text = window.top
-            .getSelection()
-            .toString()
-            .trim()
-          for (const key in rainbow) {
-            if (rainbow[key] === text) return
-          }
-          const color = getColor()
-
-          browser.storage.local.set({
-            [color]: text
-          })
-        })
-        .then(() => {
-          console.log('auto color settle down')
-        })
-        .catch(e => {
-          console.error(e)
+          setWord()
         })
     } else {
-      const text = window.top
-        .getSelection()
-        .toString()
-        .trim()
-      for (const key in rainbow) {
-        if (rainbow[key] === text) return
-      }
-      const color = getColor()
-
-      browser.storage.local
-        .set({
-          [color]: text
-        })
-        .then(() => {
-          console.log('auto color settle down')
-        })
-        .catch(e => {
-          console.error(e)
-        })
+      setWord()
     }
   }
 
@@ -232,21 +220,20 @@ function main () {
       enableProcess(changes.enable.newValue)
     } else if (changes.auto !== undefined) {
       autoProcess()
-    } else {
+    } else if (enable === true) {
       for (const key in changes) {
         const oldValue = changes[key].oldValue || ''
         const newValue = changes[key].newValue || ''
         console.log(
           'key: ' + key + ' oldValue: ' + oldValue + ' newValue: ' + newValue
         )
-        if (enable === true) {
-          if (oldValue !== '') dimWord(document.body, oldValue)
-          if (newValue !== '') {
-            hltWord(document.body, newValue, rainbowColor[key])
-          }
 
-          rainbow[key] = newValue
+        if (oldValue !== '') dimWord(document.body, oldValue)
+        if (newValue !== '') {
+          hltWord(document.body, newValue, rainbowColor[key])
         }
+
+        rainbow[key] = newValue
       }
     }
   }

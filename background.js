@@ -210,67 +210,78 @@ browser.menus.onClicked.addListener((info, tab) => {
   }
 })
 
-browser.commands.onCommand.addListener(command => {
-  if (command === 'switch') {
-    console.log(command + 'triggered')
+function autoProcess () {
+  browser.tabs
+    .executeScript({
+      file: '/highlight.js',
+      allFrames: true
+    })
+    .then(() => {
+      browser.storage.local.set({
+        auto: new Date().getTime()
+      })
+    })
+    .then(() => {
+      console.log('auto set ok')
+    })
+    .catch(e => {
+      console.error(e)
+    })
+}
 
-    browser.storage.local
-      .get({
-        enable: false
-      })
-      .then(items => {
-        if (items.enable === true) {
-          browser.storage.local
-            .set({
-              enable: false
-            })
-            .then(() => {
-              console.log('highlight 7 disabled')
-            })
-            .catch(e => {
-              console.error(e)
-            })
-        } else {
-          browser.storage.local
-            .set({
-              enable: true
-            })
-            .then(() => {
-              console.log('highlight 7 enabled')
-            })
-            .catch(e => {
-              console.error(e)
-            })
-        }
-      })
-      .catch(e => {
-        console.error(e)
-      })
-  } else if (command === 'auto') {
-    browser.tabs
-      .executeScript({
-        file: '/highlight.js',
-        allFrames: true
-      })
-      .then(() => {
-        browser.storage.local.set({
-          auto: new Date().getTime()
-        })
-      })
-      .then(() => {
-        console.log('auto set ok')
-      })
-      .catch(e => {
-        console.error(e)
-      })
+function clearProcess () {
+  browser.storage.local
+    .clear()
+    .then(() => {
+      console.log('highlight 7 cleared')
+    })
+    .catch(e => {
+      console.error(e)
+    })
+}
+
+function switchProcess () {
+  browser.storage.local
+    .get({
+      enable: false
+    })
+    .then(items => {
+      if (items.enable === true) {
+        browser.storage.local
+          .set({
+            enable: false
+          })
+          .then(() => {
+            console.log('highlight 7 disabled')
+          })
+          .catch(e => {
+            console.error(e)
+          })
+      } else {
+        browser.storage.local
+          .set({
+            enable: true
+          })
+          .then(() => {
+            console.log('highlight 7 enabled')
+          })
+          .catch(e => {
+            console.error(e)
+          })
+      }
+    })
+    .catch(e => {
+      console.error(e)
+    })
+}
+
+browser.commands.onCommand.addListener(command => {
+  console.log('shortcut: ' + command + ' triggered')
+  if (command === 'auto') {
+    autoProcess()
   } else if (command === 'clear') {
-    browser.storage.local
-      .clear()
-      .then(() => {
-        console.log('highlight 7 cleared')
-      })
-      .catch(e => {
-        console.error(e)
-      })
+    clearProcess()
+  } else if (command === 'switch') {
+    switchProcess()
   }
 })
