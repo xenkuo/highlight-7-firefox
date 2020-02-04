@@ -138,8 +138,7 @@ function menuHighlight (id, text) {
           })
           .then(() => {
             browser.tabs.executeScript({
-              file: '/highlight.js',
-              allFrames: true
+              file: '/highlight.js'
             })
           })
           .then(() => {
@@ -160,8 +159,7 @@ function menuHighlight (id, text) {
           })
           .then(() => {
             browser.tabs.executeScript({
-              file: '/highlight.js',
-              allFrames: true
+              file: '/highlight.js'
             })
           })
           .then(() => {
@@ -213,8 +211,7 @@ browser.menus.onClicked.addListener((info, tab) => {
 function autoProcess () {
   browser.tabs
     .executeScript({
-      file: '/highlight.js',
-      allFrames: true
+      file: '/highlight.js'
     })
     .then(() => {
       browser.storage.local.set({

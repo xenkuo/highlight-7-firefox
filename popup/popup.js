@@ -55,8 +55,7 @@ window.onload = () => {
 
   browser.tabs
     .executeScript({
-      file: '/highlight.js',
-      allFrames: true
+      file: '/highlight.js'
     })
     .then(result => {
       console.log(result)
