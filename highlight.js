@@ -45,10 +45,10 @@ function main () {
     return forward
   }
 
-  function hlWord (node, word, color) {
+  function hltWord (node, word, color) {
     if (Node.TEXT_NODE !== node.nodeType) {
       for (let i = 0; i < node.childNodes.length; i++) {
-        if (hlWord(node.childNodes[i], word, color) === true) i++
+        if (hltWord(node.childNodes[i], word, color) === true) i++
       }
     } else {
       return highlight(node, word, color)
@@ -56,10 +56,10 @@ function main () {
     return false
   }
 
-  function hlRainbow () {
+  function hltRainbow () {
     for (const key in rainbow) {
       if (rainbow[key] === '') continue
-      hlWord(document.body, rainbow[key], rainbowColor[key])
+      hltWord(document.body, rainbow[key], rainbowColor[key])
     }
   }
 
@@ -128,89 +128,125 @@ function main () {
     })
     .then(items => {
       rainbow = items
-      if (enable === true) hlRainbow()
+      if (enable === true) hltRainbow()
     })
     .catch(e => {
       console.error(e)
     })
 
+  function getColor () {
+    const keys = Object.keys(rainbow)
+    let color = 'red'
+    for (const key of keys) {
+      if (rainbow[key] === '') {
+        color = key
+        break
+      }
+    }
+    if (color === 'auto') {
+      color = keys[new Date().getTime() % 7]
+    }
+
+    return color
+  }
+
+  function enableProcess (newValue) {
+    console.log('enable newVale: ' + newValue)
+    switch (newValue) {
+      case true:
+        enable = true
+        hltRainbow()
+        break
+      case false:
+        enable = false
+        dimRainbow()
+        break
+      case undefined:
+        enable = false
+        dimRainbow()
+        rainbow = {}
+        break
+      default:
+        break
+    }
+  }
+
+  function autoProcess () {
+    if (document.hidden === true) return
+
+    if (enable !== true) {
+      browser.storage.local
+        .set({
+          enable: true
+        })
+        .then(() => {
+          console.log('auto mode enabled')
+
+          const text = window.top
+            .getSelection()
+            .toString()
+            .trim()
+          for (const key in rainbow) {
+            if (rainbow[key] === text) return
+          }
+          const color = getColor()
+
+          browser.storage.local.set({
+            [color]: text
+          })
+        })
+        .then(() => {
+          console.log('auto color settle down')
+        })
+        .catch(e => {
+          console.error(e)
+        })
+    } else {
+      const text = window.top
+        .getSelection()
+        .toString()
+        .trim()
+      for (const key in rainbow) {
+        if (rainbow[key] === text) return
+      }
+      const color = getColor()
+
+      browser.storage.local
+        .set({
+          [color]: text
+        })
+        .then(() => {
+          console.log('auto color settle down')
+        })
+        .catch(e => {
+          console.error(e)
+        })
+    }
+  }
+
   function storageChangeListener (changes, area) {
     if (area !== 'local') return
 
-    for (const key in changes) {
-      const oldValue = changes[key].oldValue || ''
-      const newValue = changes[key].newValue || ''
-      console.log(
-        'key: ' + key + ' oldValue: ' + oldValue + ' newValue: ' + newValue
-      )
-      if (key === 'enable') {
-        newValue === true ? hlRainbow() : dimRainbow()
-        enable = newValue
-      } else if (key === 'random') {
-        if (document.hidden === true) continue
-        if (enable !== true) {
-          browser.storage.local
-            .set({
-              enable: true
-            })
-            .then(() => {
-              console.log('random enabled')
-              let color = 'auto'
-              const items = Object.keys(rainbow)
-              for (const item of items) {
-                if (rainbow[item] === '') {
-                  color = item
-                  break
-                }
-              }
-              if (color === 'auto') {
-                color = items[new Date().getTime() % 7]
-              }
-
-              const text = window.top.getSelection().toString()
-              browser.storage.local.set({
-                [color]: text
-              })
-            })
-            .then(() => {
-              console.log('random color settle down')
-            })
-            .catch(e => {
-              console.error(e)
-            })
-        } else {
-          let color = 'auto'
-          const items = Object.keys(rainbow)
-          for (const item of items) {
-            if (rainbow[item] === '') {
-              color = item
-              break
-            }
-          }
-          if (color === 'auto') {
-            color = items[new Date().getTime() % 7]
+    // If there is enable key, we only process enable change
+    if (changes.enable !== undefined) {
+      enableProcess(changes.enable.newValue)
+    } else if (changes.auto !== undefined) {
+      autoProcess()
+    } else {
+      for (const key in changes) {
+        const oldValue = changes[key].oldValue || ''
+        const newValue = changes[key].newValue || ''
+        console.log(
+          'key: ' + key + ' oldValue: ' + oldValue + ' newValue: ' + newValue
+        )
+        if (enable === true) {
+          if (oldValue !== '') dimWord(document.body, oldValue)
+          if (newValue !== '') {
+            hltWord(document.body, newValue, rainbowColor[key])
           }
 
-          const text = window.top.getSelection().toString()
-          browser.storage.local
-            .set({
-              [color]: text
-            })
-            .then(() => {
-              console.log('random color settle down')
-            })
-            .catch(e => {
-              console.error(e)
-            })
+          rainbow[key] = newValue
         }
-      } else {
-        if (oldValue !== '' && enable === true) {
-          dimWord(document.body, oldValue)
-        }
-        if (newValue !== '' && enable === true) {
-          hlWord(document.body, newValue, rainbowColor[key])
-        }
-        rainbow[key] = newValue
       }
     }
   }

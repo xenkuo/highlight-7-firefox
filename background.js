@@ -246,7 +246,7 @@ browser.commands.onCommand.addListener(command => {
       .catch(e => {
         console.error(e)
       })
-  } else if (command === 'highlight') {
+  } else if (command === 'auto') {
     browser.tabs
       .executeScript({
         file: '/highlight.js',
@@ -254,11 +254,11 @@ browser.commands.onCommand.addListener(command => {
       })
       .then(() => {
         browser.storage.local.set({
-          random: new Date().getTime()
+          auto: new Date().getTime()
         })
       })
       .then(() => {
-        console.log('random set ok')
+        console.log('auto set ok')
       })
       .catch(e => {
         console.error(e)
