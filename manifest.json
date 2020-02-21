@@ -3,7 +3,7 @@
     "name": "Highlight 7",
     "author": "xenkuo@gmail.com",
     "description": "A simple and graceful tool that highlights max 7 words.",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "default_locale": "en",
     "applications": {
         "gecko": {
@@ -29,21 +29,21 @@
     "commands": {
         "auto": {
             "suggested_key": {
-                "default": "Ctrl+Shift+2",
+                "default": "Alt+Shift+2",
                 "mac": "Command+Shift+2"
             },
             "description": "Highlight word with auto color"
         },
         "clear": {
             "suggested_key": {
-                "default": "Ctrl+Shift+X",
+                "default": "Alt+Shift+X",
                 "mac": "Command+Shift+X"
             },
             "description": "Clear all highlight words"
         },
         "switch": {
             "suggested_key": {
-                "default": "Ctrl+Shift+E",
+                "default": "Alt+Shift+E",
                 "mac": "Command+Shift+E"
             },
             "description": "Switch highlight 7 on/off"
