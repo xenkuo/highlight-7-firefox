@@ -1,3 +1,12 @@
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: 'whitney ssm a', 'whitney ssm b', 'lucida grande', 'lucida sans',
+    Verdana, Helvetica, Arial, Helvetica, sans-serif;
+}
+
 .input-field {
   height: 30px;
   margin: 0px;

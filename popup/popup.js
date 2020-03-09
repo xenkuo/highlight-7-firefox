@@ -3,7 +3,7 @@ document.getElementById('logo').onclick = () => {
   console.log('logo btn is clicked')
   browser.tabs
     .create({
-      url: 'https://www.patreon.com/xenkuo'
+      url: 'https://xenkuo.github.io/2019-01-01-Highlight-7/'
     })
     .then(tab => {
       console.log(`Created new tab: ${tab.id}`)
@@ -70,17 +70,46 @@ window.onchange = e => {
   let value = e.target.value.trim()
 
   if (id !== 'enable') {
-    browser.storage.local
-      .set({
-        [id]: value
-      })
-      .then(this.storeSetOk, this.storeError)
+    if (false === document.getElementById('enable').checked) {
+      document.getElementById('enable').checked = true
+      browser.storage.local
+        .set({
+          enable: true
+        })
+        .then(() => {
+          browser.storage.local.set({
+            [id]: value
+          })
+        })
+        .then(result => {
+          console.log(result)
+        })
+        .catch(e => {
+          console.error(e)
+        })
+    } else {
+      browser.storage.local
+        .set({
+          [id]: value
+        })
+        .then(result => {
+          console.log(result)
+        })
+        .catch(e => {
+          console.error(e)
+        })
+    }
   } else {
     value = e.target.checked
     browser.storage.local
       .set({
         [id]: value
       })
-      .then(this.storeSetOk, this.storeError)
+      .then(result => {
+        console.log(result)
+      })
+      .catch(e => {
+        console.error(e)
+      })
   }
 }

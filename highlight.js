@@ -231,9 +231,8 @@ function main () {
         if (oldValue !== '') dimWord(document.body, oldValue)
         if (newValue !== '') {
           hltWord(document.body, newValue, rainbowColor[key])
+          rainbow[key] = newValue
         }
-
-        rainbow[key] = newValue
       }
     }
   }
