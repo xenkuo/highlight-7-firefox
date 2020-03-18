@@ -159,7 +159,7 @@ function main() {
 
   function getColor() {
     const keys = Object.keys(rainbow);
-    let color = "red";
+    let color = "auto";
     for (const key of keys) {
       if (rainbow[key] === "") {
         color = key;
