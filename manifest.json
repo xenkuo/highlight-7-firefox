@@ -47,6 +47,13 @@
                 "mac": "Command+Shift+E"
             },
             "description": "Switch highlight 7 on/off"
+        },
+        "lightning": {
+            "suggested_key": {
+                "default": "Alt+Shift+F",
+                "mac": "Command+Shift+F"
+            },
+            "description": "Lightning mode on/off"
         }
     },
     "icons": {

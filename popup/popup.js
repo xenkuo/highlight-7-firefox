@@ -3,12 +3,12 @@ document.getElementById("logo").onclick = () => {
   console.log("logo btn is clicked");
   browser.tabs
     .create({
-      url: "https://xenkuo.github.io/2019-01-01-Highlight-7/"
+      url: "https://xenkuo.github.io/2019-01-01-Highlight-7/",
     })
-    .then(tab => {
+    .then((tab) => {
       console.log(`Created new tab: ${tab.id}`);
     })
-    .catch(e => {
+    .catch((e) => {
       console.error(e);
     });
 };
@@ -28,7 +28,7 @@ document.getElementById("clear").onclick = () => {
       document.getElementById("purple").value = "";
       document.getElementById("enable").checked = false;
     })
-    .catch(e => {
+    .catch((e) => {
       console.error(e);
     });
 };
@@ -38,7 +38,7 @@ window.onload = () => {
 
   browser.storage.local
     .get()
-    .then(items => {
+    .then((items) => {
       console.log(items);
       document.getElementById("red").value = items.red || "";
       document.getElementById("orange").value = items.orange || "";
@@ -49,23 +49,23 @@ window.onload = () => {
       document.getElementById("purple").value = items.purple || "";
       document.getElementById("enable").checked = items.enable || false;
     })
-    .catch(e => {
+    .catch((e) => {
       console.error(e);
     });
 
   browser.tabs
     .executeScript({
-      file: "/highlight.js"
+      file: "/highlight.js",
     })
-    .then(result => {
+    .then((result) => {
       console.log(result);
     })
-    .catch(e => {
+    .catch((e) => {
       console.error(e);
     });
 };
 
-window.onchange = e => {
+window.onchange = (e) => {
   const id = e.target.id;
   let value = e.target.value.trim();
 
@@ -74,28 +74,28 @@ window.onchange = e => {
       document.getElementById("enable").checked = true;
       browser.storage.local
         .set({
-          enable: true
+          enable: true,
         })
         .then(() => {
           browser.storage.local.set({
-            [id]: value
+            [id]: value,
           });
         })
-        .then(result => {
+        .then((result) => {
           console.log(result);
         })
-        .catch(e => {
+        .catch((e) => {
           console.error(e);
         });
     } else {
       browser.storage.local
         .set({
-          [id]: value
+          [id]: value,
         })
-        .then(result => {
+        .then((result) => {
           console.log(result);
         })
-        .catch(e => {
+        .catch((e) => {
           console.error(e);
         });
     }
@@ -103,12 +103,12 @@ window.onchange = e => {
     value = e.target.checked;
     browser.storage.local
       .set({
-        [id]: value
+        [id]: value,
       })
-      .then(result => {
+      .then((result) => {
         console.log(result);
       })
-      .catch(e => {
+      .catch((e) => {
         console.error(e);
       });
   }

@@ -18,8 +18,8 @@ browser.menus.create(
     contexts: ["page", "editable", "frame", "link", "selection"],
     icons: {
       16: "icons/hl-7.png",
-      32: "icons/hl-7@2x.png"
-    }
+      32: "icons/hl-7@2x.png",
+    },
   },
   onCreated
 );
@@ -28,7 +28,7 @@ browser.menus.create(
   {
     id: "separator",
     type: "separator",
-    contexts: ["page", "editable", "frame", "link", "selection"]
+    contexts: ["page", "editable", "frame", "link", "selection"],
   },
   onCreated
 );
@@ -40,8 +40,8 @@ browser.menus.create(
     contexts: ["page", "editable", "frame", "link", "selection"],
     icons: {
       16: "icons/hl-red.png",
-      32: "icons/hl-red@2x.png"
-    }
+      32: "icons/hl-red@2x.png",
+    },
   },
   onCreated
 );
@@ -53,8 +53,8 @@ browser.menus.create(
     contexts: ["page", "editable", "frame", "link", "selection"],
     icons: {
       16: "icons/hl-orange.png",
-      32: "icons/hl-orange@2x.png"
-    }
+      32: "icons/hl-orange@2x.png",
+    },
   },
   onCreated
 );
@@ -66,8 +66,8 @@ browser.menus.create(
     contexts: ["page", "editable", "frame", "link", "selection"],
     icons: {
       16: "icons/hl-yellow.png",
-      32: "icons/hl-yellow@2x.png"
-    }
+      32: "icons/hl-yellow@2x.png",
+    },
   },
   onCreated
 );
@@ -79,8 +79,8 @@ browser.menus.create(
     contexts: ["page", "editable", "frame", "link", "selection"],
     icons: {
       16: "icons/hl-green.png",
-      32: "icons/hl-green@2x.png"
-    }
+      32: "icons/hl-green@2x.png",
+    },
   },
   onCreated
 );
@@ -92,8 +92,8 @@ browser.menus.create(
     contexts: ["page", "editable", "frame", "link", "selection"],
     icons: {
       16: "icons/hl-blue.png",
-      32: "icons/hl-blue@2x.png"
-    }
+      32: "icons/hl-blue@2x.png",
+    },
   },
   onCreated
 );
@@ -105,8 +105,8 @@ browser.menus.create(
     contexts: ["page", "editable", "frame", "link", "selection"],
     icons: {
       16: "icons/hl-indigo.png",
-      32: "icons/hl-indigo@2x.png"
-    }
+      32: "icons/hl-indigo@2x.png",
+    },
   },
   onCreated
 );
@@ -118,8 +118,8 @@ browser.menus.create(
     contexts: ["page", "editable", "frame", "link", "selection"],
     icons: {
       16: "icons/hl-purple.png",
-      32: "icons/hl-purple@2x.png"
-    }
+      32: "icons/hl-purple@2x.png",
+    },
   },
   onCreated
 );
@@ -128,53 +128,130 @@ function menuHighlight(id, text) {
   console.log("id: " + id + "; text: " + text);
   browser.storage.local
     .get({
-      enable: false
+      enable: false,
     })
-    .then(items => {
+    .then((items) => {
       if (items.enable === true) {
         browser.storage.local
           .set({
-            [id]: text
+            [id]: text,
           })
           .then(() => {
             browser.tabs.executeScript({
-              file: "/highlight.js"
+              file: "/highlight.js",
             });
           })
           .then(() => {
             console.log("highlight works");
           })
-          .catch(e => {
+          .catch((e) => {
             console.error(e);
           });
       } else {
         browser.storage.local
           .set({
-            enable: true
+            enable: true,
           })
           .then(() => {
             browser.storage.local.set({
-              [id]: text
+              [id]: text,
             });
           })
           .then(() => {
             browser.tabs.executeScript({
-              file: "/highlight.js"
+              file: "/highlight.js",
             });
           })
           .then(() => {
             console.log("highlight works");
           })
-          .catch(e => {
+          .catch((e) => {
             console.error(e);
           });
       }
     })
-    .catch(e => {
+    .catch((e) => {
       console.error(e);
     });
 }
 
+function autoHandle() {
+  browser.tabs
+    .executeScript({
+      file: "/highlight.js",
+    })
+    .then(() => {
+      browser.storage.local.set({
+        auto: new Date().getTime(),
+      });
+    })
+    .then(() => {
+      console.log("auto set ok");
+    })
+    .catch((e) => {
+      console.error(e);
+    });
+}
+
+function clearHandle() {
+  browser.storage.local
+    .clear()
+    .then(() => {
+      console.log("highlight 7 cleared");
+    })
+    .catch((e) => {
+      console.error(e);
+    });
+}
+
+function switchHandle() {
+  browser.storage.local
+    .get({
+      enable: false,
+    })
+    .then((items) => {
+      if (items.enable === true) {
+        browser.storage.local
+          .set({
+            enable: false,
+          })
+          .then(() => {
+            console.log("highlight 7 disabled");
+          })
+          .catch((e) => {
+            console.error(e);
+          });
+      } else {
+        browser.storage.local
+          .set({
+            enable: true,
+          })
+          .then(() => {
+            console.log("highlight 7 enabled");
+          })
+          .catch((e) => {
+            console.error(e);
+          });
+      }
+    })
+    .catch((e) => {
+      console.error(e);
+    });
+}
+
+// add shortcut listener
+browser.commands.onCommand.addListener((command) => {
+  console.log("shortcut: " + command + " triggered");
+  if (command === "auto") {
+    autoHandle();
+  } else if (command === "clear") {
+    clearHandle();
+  } else if (command === "switch") {
+    switchHandle();
+  }
+});
+
+// add menus listener
 browser.menus.onClicked.addListener((info, tab) => {
   let id = info.menuItemId || "auto";
   let text = info.selectionText || "";
@@ -190,9 +267,9 @@ browser.menus.onClicked.addListener((info, tab) => {
         green: "",
         blue: "",
         indigo: "",
-        purple: ""
+        purple: "",
       })
-      .then(items => {
+      .then((items) => {
         const keys = Object.keys(items);
         for (const key of keys) {
           if (items[key] === "") {
@@ -205,80 +282,5 @@ browser.menus.onClicked.addListener((info, tab) => {
       });
   } else {
     menuHighlight(id, text);
-  }
-});
-
-function autoProcess() {
-  browser.tabs
-    .executeScript({
-      file: "/highlight.js"
-    })
-    .then(() => {
-      browser.storage.local.set({
-        auto: new Date().getTime()
-      });
-    })
-    .then(() => {
-      console.log("auto set ok");
-    })
-    .catch(e => {
-      console.error(e);
-    });
-}
-
-function clearProcess() {
-  browser.storage.local
-    .clear()
-    .then(() => {
-      console.log("highlight 7 cleared");
-    })
-    .catch(e => {
-      console.error(e);
-    });
-}
-
-function switchProcess() {
-  browser.storage.local
-    .get({
-      enable: false
-    })
-    .then(items => {
-      if (items.enable === true) {
-        browser.storage.local
-          .set({
-            enable: false
-          })
-          .then(() => {
-            console.log("highlight 7 disabled");
-          })
-          .catch(e => {
-            console.error(e);
-          });
-      } else {
-        browser.storage.local
-          .set({
-            enable: true
-          })
-          .then(() => {
-            console.log("highlight 7 enabled");
-          })
-          .catch(e => {
-            console.error(e);
-          });
-      }
-    })
-    .catch(e => {
-      console.error(e);
-    });
-}
-
-browser.commands.onCommand.addListener(command => {
-  console.log("shortcut: " + command + " triggered");
-  if (command === "auto") {
-    autoProcess();
-  } else if (command === "clear") {
-    clearProcess();
-  } else if (command === "switch") {
-    switchProcess();
   }
 });

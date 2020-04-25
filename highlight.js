@@ -8,7 +8,7 @@ function main() {
     green: "#b9f6ca",
     blue: "#80d8ff",
     indigo: "#8c9eff",
-    purple: "#ea80fc"
+    purple: "#ea80fc",
   };
 
   function highlight(node, word, color) {
@@ -107,12 +107,12 @@ function main() {
 
   browser.storage.local
     .get({
-      enable: false
+      enable: false,
     })
-    .then(function(items) {
+    .then(function (items) {
       enable = items.enable;
     })
-    .catch(function(e) {
+    .catch(function (e) {
       console.error(e);
     });
 
@@ -124,13 +124,13 @@ function main() {
       green: "",
       blue: "",
       indigo: "",
-      purple: ""
+      purple: "",
     })
-    .then(items => {
+    .then((items) => {
       rainbow = items;
       if (enable === true) hltRainbow();
     })
-    .catch(e => {
+    .catch((e) => {
       console.error(e);
     });
 
@@ -174,10 +174,7 @@ function main() {
   }
 
   function setWord() {
-    const word = window.top
-      .getSelection()
-      .toString()
-      .trim();
+    const word = window.top.getSelection().toString().trim();
     for (const key in rainbow) {
       if (rainbow[key] === word) return;
     }
@@ -185,12 +182,12 @@ function main() {
 
     browser.storage.local
       .set({
-        [color]: word
+        [color]: word,
       })
       .then(() => {
         console.log("auto color settle down");
       })
-      .catch(e => {
+      .catch((e) => {
         console.error(e);
       });
   }
@@ -201,7 +198,7 @@ function main() {
     if (enable !== true) {
       browser.storage.local
         .set({
-          enable: true
+          enable: true,
         })
         .then(() => {
           console.log("auto mode enabled");
@@ -238,6 +235,13 @@ function main() {
   }
 
   browser.storage.onChanged.addListener(storageChangeListener);
+
+  // add mouse double click listener
+  document.ondblclick = () => {
+    if (enable === true) {
+      setWord();
+    }
+  };
 }
 
 var running;
